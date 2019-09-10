@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Atqr</string>
+    <string name="usuario">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="login">LOGIN</string>
+</resources>
