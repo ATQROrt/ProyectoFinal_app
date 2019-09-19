@@ -1,7 +1,13 @@
 package com.adrianiglesia.atqr.Services;
 
+import android.util.Log;
+
+import com.adrianiglesia.atqr.Model.LoginBody;
+import com.adrianiglesia.atqr.Model.ResponseService;
 import com.adrianiglesia.atqr.Model.User;
 
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Retrofit;
 
 public class MainRepository {
@@ -11,24 +17,33 @@ public class MainRepository {
     
 
     public MainRepository(){
-//        retrofit = MyRetrofit.getRetrofit();
-       // services = retrofit.create(ApiServices.class);
+        retrofit = MyRetrofit.getRetrofit();
+        services = retrofit.create(ApiServices.class);
     }
 
-    public void userLogin(String username, String pass, LoginInterface callback){
+    public void userLogin(Long username, String pass, LoginInterface callback){
 
-        //Por el momento utilizo Gson para leer desde un Json local hasta que tengamos la APi lista.
-        //Aca se supone que llamaria utilizando retrofit
+        LoginBody body = new LoginBody(username, pass);
+        Call<ResponseService> login = services.userLogin(body);
+        login.enqueue(new Callback<ResponseService>() {
+            @Override
+            public void onResponse(Call<ResponseService> call, retrofit2.Response<ResponseService> response) {
 
-        if(username.equals("adrian") && pass.equals("123456")){
-            User user = User.getInstance();
-            user.setName("aldana");
-            user.setLastName("vazquez");
-            callback.onSuccess(user);
+                //Log.d("USER",userResponse.toString());
 
-        }else{
-           callback.onError("Error al querer ingresar, verifique los datos ingresados");
-        }
+                if(response.isSuccessful() && response.body().getObject() != null){
+                    User userResponse = (User) response.body().getObject();
+                    callback.onSuccess(userResponse);
+                }else{
+                    callback.onError("Ups! Algo malio sal");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseService> call, Throwable t) {
+                //FALLA LA LLAMADA AL SERVICIO
+            }
+        });
 
     }
 

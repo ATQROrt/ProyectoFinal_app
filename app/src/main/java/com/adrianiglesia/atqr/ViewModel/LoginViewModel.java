@@ -13,8 +13,8 @@ public class LoginViewModel extends ViewModel {
 
     private MainRepository repository = new MainRepository();
 
-    public void callLogin(String user, String pass, ErrorCallback callback){
-        repository.userLogin(user, pass, new MainRepository.LoginInterface() {
+    public void callLogin(Long document, String pass, ErrorCallback callback){
+        repository.userLogin(document, pass, new MainRepository.LoginInterface() {
             @Override
             public void onSuccess(User user) {
                 userMutableLiveData.setValue(user);

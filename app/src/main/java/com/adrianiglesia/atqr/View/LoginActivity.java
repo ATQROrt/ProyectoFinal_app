@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edtUser;
 
 
-    private String username;
+    private Long document;
     private String pass;
 
     private LoginViewModel loginViewModel;
@@ -43,19 +43,17 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
 
         btnLogin.setOnClickListener(v -> {
-            username = edtUser.getText().toString();
+            document = Long.parseLong(edtUser.getText().toString());
             pass = edtPass.getText().toString();
-            if(validate(username, pass)){
+            if(validate(document, pass)){
                 //llamo el viewmodel para obtener el usaurio
-                loginViewModel.callLogin(username, pass, msg -> Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show());
+                loginViewModel.callLogin(document, pass, msg -> Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show());
             }else{
                 Toast.makeText(LoginActivity.this, "Verifique los campos ingresados", Toast.LENGTH_SHORT).show();
             }
         });
 
         loginViewModel.getUserLiveData().observe(this, user -> {
-            Log.d("SUCCES_LOGIN_NAME",user.getName());
-            Log.d("SUCCES_LOGIN_LASTNAME", user.getLastName());
             Intent intent = new Intent(this, MateriasActivity.class);
             intent.putExtra("USER", user);
             startActivity(intent);
@@ -63,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private Boolean validate(String username, String pass){
+    private Boolean validate(Long document, String pass){
 
         //Valido que los campos ingresados esten correctos
 
