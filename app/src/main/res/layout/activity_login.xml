@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edt_user" />
 
     <Button
-        android:id="@+id/bt_login_2"
+        android:id="@+id/bt_login"
         android:layout_width="329dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
