@@ -30,7 +30,13 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
 
 
-        loginViewModel!!.userMutableLiveData.observe(this, Observer<User> {
+        bt_login.setOnClickListener{
+            var intent = Intent(this, MateriasActivity::class.java)
+            intent.putExtra("USER", User("adrian","asd",1234,"",null,"asd","asd"))
+            startActivity(intent)
+        }
+
+        /*loginViewModel!!.userMutableLiveData.observe(this, Observer<User> {
             if(it != null){
                 var intent = Intent(this, MateriasActivity::class.java)
                 intent.putExtra("USER", it)
@@ -45,12 +51,12 @@ class LoginActivity : AppCompatActivity() {
         bt_login!!.setOnClickListener {
             document =  edt_user.text.toString()
             pass = edt_pass.text.toString()
-            if (!document.equals("") || !pass.equals("")) {
+            if (document != "" || pass != "") {
                 loginViewModel!!.login(document!!.toLong(), pass)
             } else {
                 Toast.makeText(this, "Verifique los campos ingresados", Toast.LENGTH_SHORT).show()
             }
-        }
+        }*/
     }
 
     private fun validate(document: Long, pass: String): Boolean {
