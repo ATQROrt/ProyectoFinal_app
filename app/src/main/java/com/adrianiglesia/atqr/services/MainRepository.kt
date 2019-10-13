@@ -1,9 +1,8 @@
 package com.adrianiglesia.atqr.services
 
 
-import com.adrianiglesia.atqr.model.response.LoginBody
-import com.adrianiglesia.atqr.model.response.ResponseService
 import com.adrianiglesia.atqr.model.User
+import com.adrianiglesia.atqr.model.response.LoginBody
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,17 +21,17 @@ class MainRepository {
 
         val body = LoginBody(username, pass)
         val login = services.userLogin(body)
-        login.enqueue(object : Callback<ResponseService> {
-            override fun onResponse(call: Call<ResponseService>, response: retrofit2.Response<ResponseService>) {
-                if (response.isSuccessful && response.body()!!.getObject() != null) {
-                    val userResponse = response.body()!!.getObject() as User
+        login.enqueue(object : Callback<User> {
+            override fun onResponse(call: Call<User>, response: retrofit2.Response<User>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val userResponse = response.body()!!
                     successHandler(userResponse)
                 } else {
-                    failureHandler(response.message())
+                    failureHandler("Error al recuperar el usuario. Verefique datos ingresados")
                 }
             }
 
-            override fun onFailure(call: Call<ResponseService>, t: Throwable) {
+            override fun onFailure(call: Call<User>, t: Throwable) {
                 failureHandler("ERROR AL LLAMAR AL SERVICIO")
             }
         })
