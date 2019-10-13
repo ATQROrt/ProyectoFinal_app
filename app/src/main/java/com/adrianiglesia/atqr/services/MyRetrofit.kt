@@ -1,7 +1,6 @@
-package com.adrianiglesia.atqr.Services
+package com.adrianiglesia.atqr.services
 
 import com.google.gson.FieldNamingPolicy
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 import retrofit2.Retrofit

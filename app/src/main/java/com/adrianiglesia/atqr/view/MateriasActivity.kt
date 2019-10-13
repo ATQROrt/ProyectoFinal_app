@@ -1,4 +1,4 @@
-package com.adrianiglesia.atqr.View
+package com.adrianiglesia.atqr.view
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.widget.Toast
-import com.adrianiglesia.atqr.Model.Materia
+import com.adrianiglesia.atqr.model.Materia
 
 import com.adrianiglesia.atqr.R
-import com.adrianiglesia.atqr.View.Adapters.MateriasAdapter
+import com.adrianiglesia.atqr.view.adapters.MateriasAdapter
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.activity_materias.*
 
@@ -62,6 +62,7 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
     }
 
     override fun onItemClicked(materia: Materia) {
-        Toast.makeText(this,materia.name, Toast.LENGTH_SHORT).show()
+        var intent = Intent(this, AsistenciaActivity::class.java)
+        startActivity(intent)
     }
 }

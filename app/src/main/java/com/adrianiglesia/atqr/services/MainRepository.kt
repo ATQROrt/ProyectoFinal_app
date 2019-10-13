@@ -1,11 +1,9 @@
-package com.adrianiglesia.atqr.Services
+package com.adrianiglesia.atqr.services
 
 
-import android.provider.Settings.Global.getString
-import com.adrianiglesia.atqr.Model.LoginBody
-import com.adrianiglesia.atqr.Model.ResponseService
-import com.adrianiglesia.atqr.Model.User
-import com.adrianiglesia.atqr.R
+import com.adrianiglesia.atqr.model.response.LoginBody
+import com.adrianiglesia.atqr.model.response.ResponseService
+import com.adrianiglesia.atqr.model.User
 
 import retrofit2.Call
 import retrofit2.Callback

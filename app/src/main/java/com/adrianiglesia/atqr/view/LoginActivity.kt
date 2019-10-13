@@ -1,17 +1,15 @@
-package com.adrianiglesia.atqr.View
+package com.adrianiglesia.atqr.view
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 
 import com.adrianiglesia.atqr.R
-import com.adrianiglesia.atqr.ViewModel.LoginViewModel
+import com.adrianiglesia.atqr.viewmodel.LoginViewModel
 
 import butterknife.ButterKnife
-import com.adrianiglesia.atqr.Model.User
+import com.adrianiglesia.atqr.model.User
 import kotlinx.android.synthetic.main.activity_login.*
 
 
