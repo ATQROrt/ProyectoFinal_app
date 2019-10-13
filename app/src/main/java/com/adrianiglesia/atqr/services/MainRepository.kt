@@ -3,9 +3,11 @@ package com.adrianiglesia.atqr.services
 
 import com.adrianiglesia.atqr.model.User
 import com.adrianiglesia.atqr.model.response.LoginBody
+import com.adrianiglesia.atqr.model.response.MateriaResponse
 
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 
 class MainRepository {
@@ -32,11 +34,26 @@ class MainRepository {
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
-                failureHandler("ERROR AL LLAMAR AL SERVICIO")
+
             }
         })
 
     }
 
+    fun userAssignature(user:User,successHandler: (List<MateriaResponse>)->Unit, failureHandler: (String)-> Unit){
+        val assignatures:Call<List<MateriaResponse>> = services.userAssignatures(user)
+        assignatures.enqueue(object : Callback<List<MateriaResponse>>{
+            override fun onFailure(call: Call<List<MateriaResponse>>, t: Throwable) {
+                failureHandler("ERROR AL LLAMAR AL SERVICIO")
+            }
 
+            override fun onResponse(call: Call<List<MateriaResponse>>, response: Response<List<MateriaResponse>>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val assignatureResponse = response.body()!!
+                    successHandler(assignatureResponse)
+                }
+            }
+
+        })
+    }
 }

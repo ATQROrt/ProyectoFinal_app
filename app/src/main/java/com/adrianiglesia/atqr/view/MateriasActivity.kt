@@ -1,5 +1,8 @@
 package com.adrianiglesia.atqr.view
 
+import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -9,30 +12,32 @@ import android.widget.Toast
 import com.adrianiglesia.atqr.model.Materia
 
 import com.adrianiglesia.atqr.R
-import com.adrianiglesia.atqr.model.Asistencia
 import com.adrianiglesia.atqr.model.User
+import com.adrianiglesia.atqr.model.response.MateriaResponse
 import com.adrianiglesia.atqr.view.adapters.MateriasAdapter
+import com.adrianiglesia.atqr.viewmodel.MateriasViewModel
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.activity_materias.*
 
 class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListener {
 
+    private lateinit var materiasViewModel: MateriasViewModel
+
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_materias)
 
+        materiasViewModel = ViewModelProviders.of(this).get(MateriasViewModel::class.java)
+
         val user = intent.getParcelableExtra<User>("USER")
         tv_welcome_user.text = "Bienvenido ${user.firstName}"
 
-        var mat1 = Materia("taller de programacion", "30")
-        var mat2 = Materia("estudios judaicos", "50")
-        var mat3 = Materia("calidad de software", "50")
-        var mat4 = Materia("programacion 3", "70")
-        var mat5 = Materia("proyecto final", "100")
 
-        var materias = listOf(mat1,mat2,mat3,mat4,mat5)
+        materiasViewModel.getAssignatures(user).observe(this, Observer<List<MateriaResponse>>{
 
-        setRecyclerView(materias)
+            setRecyclerView(it!!)
+        })
 
         btn_scan_qr.setOnClickListener {
             Log.d("SCAN", "Escaneo QR activado")
@@ -42,7 +47,7 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
     }
 
     private fun startScanQr() {
-        var scanner = IntentIntegrator(this)
+        val scanner = IntentIntegrator(this)
         scanner.setOrientationLocked(true)
         scanner.setPrompt("Escanea el QR que habilite el profesor")
         scanner.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
@@ -63,14 +68,14 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
         }
     }
 
-    private fun setRecyclerView(materias:List<Materia>){
+    private fun setRecyclerView(materias:List<MateriaResponse>){
         recycler_materias.layoutManager = LinearLayoutManager(this)
         recycler_materias.hasFixedSize()
         recycler_materias.adapter = MateriasAdapter(materias,this)
     }
 
     override fun onItemClicked(materia: Materia) {
-        var intent = Intent(this, AsistenciaActivity::class.java)
+        val intent = Intent(this, AsistenciaActivity::class.java)
         startActivity(intent)
     }
 }
