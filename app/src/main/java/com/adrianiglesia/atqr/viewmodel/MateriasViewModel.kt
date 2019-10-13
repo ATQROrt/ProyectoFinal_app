@@ -12,6 +12,9 @@ class MateriasViewModel: ViewModel() {
     private val repository = MainRepository()
 
     private var assignatures:MutableLiveData<List<MateriaResponse>> = MutableLiveData()
+    var isLoading:MutableLiveData<Boolean> = MutableLiveData()
+    private var message:MutableLiveData<String> = MutableLiveData()
+
 
     fun getAssignatures(user: User):LiveData<List<MateriaResponse>>{
 
@@ -21,11 +24,14 @@ class MateriasViewModel: ViewModel() {
     }
 
     private fun loadAssginatures(user:User){
-
+        isLoading.value = true
         repository.userAssignature(user,{
             assignatures.value = it
+            isLoading.value = false
+
         },{
 
+            isLoading.value = false
         })
 
     }

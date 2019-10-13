@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import com.adrianiglesia.atqr.model.Materia
 
@@ -35,8 +37,11 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
 
 
         materiasViewModel.getAssignatures(user).observe(this, Observer<List<MateriaResponse>>{
-
             setRecyclerView(it!!)
+        })
+
+        materiasViewModel.isLoading.observe(this,Observer<Boolean>{
+            setVisiblities(it!!)
         })
 
         btn_scan_qr.setOnClickListener {
@@ -65,6 +70,16 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
             }
         }else{
             super.onActivityResult(requestCode,resultCode,data)
+        }
+    }
+
+    private fun setVisiblities(it:Boolean){
+        if(it){
+            loading_materias.visibility = VISIBLE
+            recycler_materias.visibility = GONE
+        }else{
+            loading_materias.visibility = GONE
+            recycler_materias.visibility = VISIBLE
         }
     }
 

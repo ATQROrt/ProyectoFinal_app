@@ -24,7 +24,7 @@ class MainRepository {
         val body = LoginBody(username, pass)
         val login = services.userLogin(body)
         login.enqueue(object : Callback<User> {
-            override fun onResponse(call: Call<User>, response: retrofit2.Response<User>) {
+            override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful && response.body() != null) {
                     val userResponse = response.body()!!
                     successHandler(userResponse)
@@ -34,7 +34,7 @@ class MainRepository {
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
-
+                failureHandler(t.message.toString())
             }
         })
 
@@ -44,13 +44,16 @@ class MainRepository {
         val assignatures:Call<List<MateriaResponse>> = services.userAssignatures(user)
         assignatures.enqueue(object : Callback<List<MateriaResponse>>{
             override fun onFailure(call: Call<List<MateriaResponse>>, t: Throwable) {
-                failureHandler("ERROR AL LLAMAR AL SERVICIO")
+                failureHandler(t.message.toString())
             }
 
             override fun onResponse(call: Call<List<MateriaResponse>>, response: Response<List<MateriaResponse>>) {
                 if (response.isSuccessful && response.body() != null) {
                     val assignatureResponse = response.body()!!
                     successHandler(assignatureResponse)
+                }else{
+                    failureHandler("Error al recuperar las materias. Intente mas tarde")
+
                 }
             }
 
