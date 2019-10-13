@@ -9,6 +9,8 @@ import android.widget.Toast
 import com.adrianiglesia.atqr.model.Materia
 
 import com.adrianiglesia.atqr.R
+import com.adrianiglesia.atqr.model.Asistencia
+import com.adrianiglesia.atqr.model.User
 import com.adrianiglesia.atqr.view.adapters.MateriasAdapter
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.activity_materias.*
@@ -19,6 +21,9 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_materias)
 
+        val user = intent.getParcelableExtra<User>("USER")
+        tv_welcome_user.text = "Bienvenido ${user.firstName}"
+
         var mat1 = Materia("taller de programacion", "30")
         var mat2 = Materia("estudios judaicos", "50")
         var mat3 = Materia("calidad de software", "50")
@@ -27,10 +32,7 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
 
         var materias = listOf(mat1,mat2,mat3,mat4,mat5)
 
-        recycler_materias.layoutManager = LinearLayoutManager(this)
-        recycler_materias.hasFixedSize()
-        recycler_materias.adapter = MateriasAdapter(materias,this)
-
+        setRecyclerView(materias)
 
         btn_scan_qr.setOnClickListener {
             Log.d("SCAN", "Escaneo QR activado")
@@ -59,6 +61,12 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
         }else{
             super.onActivityResult(requestCode,resultCode,data)
         }
+    }
+
+    private fun setRecyclerView(materias:List<Materia>){
+        recycler_materias.layoutManager = LinearLayoutManager(this)
+        recycler_materias.hasFixedSize()
+        recycler_materias.adapter = MateriasAdapter(materias,this)
     }
 
     override fun onItemClicked(materia: Materia) {

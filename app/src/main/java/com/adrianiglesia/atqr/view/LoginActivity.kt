@@ -1,9 +1,13 @@
 package com.adrianiglesia.atqr.view
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.widget.Toast
 
 import com.adrianiglesia.atqr.R
 import com.adrianiglesia.atqr.viewmodel.LoginViewModel
@@ -15,10 +19,10 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
-    private var document: String? = null
+    private var document: Long? = null
     private var pass: String = ""
 
-    private var loginViewModel: LoginViewModel? = null
+    private lateinit var loginViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,38 +32,44 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
 
 
-        bt_login.setOnClickListener{
-            var intent = Intent(this, MateriasActivity::class.java)
-            intent.putExtra("USER", User("adrian","asd",1234,"",null,"asd","asd"))
-            startActivity(intent)
-        }
+        loginViewModel.message.observe(this, Observer<String>{
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        })
 
-        /*loginViewModel!!.userMutableLiveData.observe(this, Observer<User> {
+        loginViewModel.isLoading.observe(this,Observer<Boolean>{
+            setVisiblities(it!!)
+        })
+
+        loginViewModel.userMutableLiveData.observe(this, Observer<User> {
             if(it != null){
-                var intent = Intent(this, MateriasActivity::class.java)
-                intent.putExtra("USER", it)
+                val intent = Intent(this, MateriasActivity::class.java)
+                intent.putExtra("USER",it)
                 startActivity(intent)
             }
         })
 
-        loginViewModel!!.apiMessage.observe(this, Observer<String>{
-            Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
-        })
 
-        bt_login!!.setOnClickListener {
-            document =  edt_user.text.toString()
+        bt_login.setOnClickListener {
+            document =  edt_user.text.toString().toLong()
             pass = edt_pass.text.toString()
-            if (document != "" || pass != "") {
-                loginViewModel!!.login(document!!.toLong(), pass)
-            } else {
-                Toast.makeText(this, "Verifique los campos ingresados", Toast.LENGTH_SHORT).show()
+            if (document != null || pass != "") {
+                loginViewModel.login(document!!, pass)
             }
-        }*/
+        }
     }
 
-    private fun validate(document: Long, pass: String): Boolean {
-        return true
+    private fun setVisiblities(it:Boolean){
+        if(it){
+            edt_user.isEnabled = false
+            edt_pass.isEnabled = false
+            loading_login.visibility = VISIBLE
+            bt_login.visibility = GONE
+        }else{
+            edt_user.isEnabled = true
+            edt_pass.isEnabled = true
+            loading_login.visibility = GONE
+            bt_login.visibility = VISIBLE
+        }
     }
-
 
 }
