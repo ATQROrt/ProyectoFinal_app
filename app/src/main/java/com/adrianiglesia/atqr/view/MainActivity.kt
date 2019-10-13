@@ -1,4 +1,4 @@
-package com.adrianiglesia.atqr.View
+package com.adrianiglesia.atqr.view
 
 import android.content.Intent
 import android.os.Handler
@@ -12,11 +12,12 @@ import butterknife.ButterKnife
 
 class MainActivity : AppCompatActivity() {
 
-    private val TIME = 2000
+    private val TIME = 500
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
+
 
         Handler().postDelayed({
             val intent = Intent(this@MainActivity, LoginActivity::class.java)

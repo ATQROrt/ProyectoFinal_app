@@ -1,4 +1,6 @@
-package com.adrianiglesia.atqr.Model;
+package com.adrianiglesia.atqr.model.response;
+
+import com.adrianiglesia.atqr.model.User;
 
 public class ResponseService {
 

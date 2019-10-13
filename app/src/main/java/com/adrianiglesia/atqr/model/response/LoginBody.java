@@ -1,4 +1,4 @@
-package com.adrianiglesia.atqr.Model;
+package com.adrianiglesia.atqr.model.response;
 
 public class LoginBody {
 

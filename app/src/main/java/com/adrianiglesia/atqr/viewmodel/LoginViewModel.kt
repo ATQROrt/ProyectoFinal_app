@@ -1,10 +1,10 @@
-package com.adrianiglesia.atqr.ViewModel
+package com.adrianiglesia.atqr.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 
-import com.adrianiglesia.atqr.Model.User
-import com.adrianiglesia.atqr.Services.MainRepository
+import com.adrianiglesia.atqr.model.User
+import com.adrianiglesia.atqr.services.MainRepository
 
 class LoginViewModel : ViewModel() {
 

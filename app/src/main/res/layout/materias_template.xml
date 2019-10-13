@@ -7,12 +7,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"
+        android:background="@drawable/materia_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,6 +26,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_weight="1"
+            android:layout_marginStart="8dp"
             android:textSize="16sp"
             android:textColor="#070707"
             android:layout_gravity="center_vertical"
@@ -38,6 +40,7 @@
             android:layout_alignParentEnd="true"
             android:layout_gravity="center_vertical"
             android:text="100%"
+            android:layout_marginEnd="8dp"
             android:layout_weight="0"
             android:textColor="#168f06"
             android:textSize="24sp" />

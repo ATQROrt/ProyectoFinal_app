@@ -1,4 +1,4 @@
-package com.adrianiglesia.atqr.Model
+package com.adrianiglesia.atqr.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

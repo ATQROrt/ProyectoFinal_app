@@ -1,7 +1,7 @@
-package com.adrianiglesia.atqr.Services
+package com.adrianiglesia.atqr.services
 
-import com.adrianiglesia.atqr.Model.LoginBody
-import com.adrianiglesia.atqr.Model.ResponseService
+import com.adrianiglesia.atqr.model.response.LoginBody
+import com.adrianiglesia.atqr.model.response.ResponseService
 
 import retrofit2.Call
 import retrofit2.http.Body
