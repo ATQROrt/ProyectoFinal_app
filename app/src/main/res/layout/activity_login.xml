@@ -30,7 +30,7 @@
         android:inputType="number"
         android:hint="@string/usuario"
         android:theme="@style/AppTheme"
-        android:text="12345678"
+        android:text="44776897"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.043"
         app:layout_constraintStart_toStartOf="parent"
