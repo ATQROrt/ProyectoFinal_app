@@ -1,9 +1,12 @@
 package com.adrianiglesia.atqr.services
 
 
+import android.util.Log
 import com.adrianiglesia.atqr.model.User
 import com.adrianiglesia.atqr.model.response.LoginBody
 import com.adrianiglesia.atqr.model.response.MateriaResponse
+import com.adrianiglesia.atqr.model.response.QrBody
+import okhttp3.ResponseBody
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -55,6 +58,24 @@ class MainRepository {
                     failureHandler("Error al recuperar las materias. Intente mas tarde")
 
                 }
+            }
+
+        })
+    }
+
+    fun sendQr(qrBody:QrBody,successHandler: (String)->Unit, failureHandler: (String)-> Unit){
+        val sendQr:Call<ResponseBody> = services.sendQr(qrBody)
+        sendQr.enqueue(object : Callback<ResponseBody>{
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                failureHandler(t.message.toString())
+            }
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if(response.isSuccessful && response.body() != null){
+                    successHandler("PRESENTE")
+                    Log.d("RESPONSE_BODY", response.message())
+                }
+
+
             }
 
         })

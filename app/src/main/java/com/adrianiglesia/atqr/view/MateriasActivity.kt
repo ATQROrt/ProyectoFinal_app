@@ -16,6 +16,7 @@ import com.adrianiglesia.atqr.model.Materia
 import com.adrianiglesia.atqr.R
 import com.adrianiglesia.atqr.model.User
 import com.adrianiglesia.atqr.model.response.MateriaResponse
+import com.adrianiglesia.atqr.model.response.QrBody
 import com.adrianiglesia.atqr.view.adapters.MateriasAdapter
 import com.adrianiglesia.atqr.viewmodel.MateriasViewModel
 import com.google.zxing.integration.android.IntentIntegrator
@@ -24,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_materias.*
 class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListener {
 
     private lateinit var materiasViewModel: MateriasViewModel
+    private lateinit var user:User
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +34,9 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
 
         materiasViewModel = ViewModelProviders.of(this).get(MateriasViewModel::class.java)
 
-        val user = intent.getParcelableExtra<User>("USER")
+        user = intent.getParcelableExtra<User>("USER")
         tv_welcome_user.text = "Bienvenido ${user.firstName}"
+        Log.d("ID_USER", user.id.toString())
 
 
         materiasViewModel.getAssignatures(user).observe(this, Observer<List<MateriaResponse>>{
@@ -42,6 +45,10 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
 
         materiasViewModel.isLoading.observe(this,Observer<Boolean>{
             setVisiblities(it!!)
+        })
+
+        materiasViewModel.showMessage().observe(this, Observer<String>{
+            if(it != null) showMessage(it)
         })
 
         btn_scan_qr.setOnClickListener {
@@ -66,7 +73,11 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
             if(result.contents == null){
                 Toast.makeText(this,"Cancelaste el scanneo",Toast.LENGTH_SHORT).show()
             }else{
-                Toast.makeText(this,result.contents.toString(),Toast.LENGTH_SHORT).show()
+                val courseId:Long = result.contents.toLong()
+                val qrBody = QrBody(user.id.toLong(), courseId)
+                materiasViewModel.sendQr(qrBody)
+
+                //Toast.makeText(this,result.contents.toString(),Toast.LENGTH_SHORT).show()
             }
         }else{
             super.onActivityResult(requestCode,resultCode,data)
@@ -81,6 +92,11 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
             loading_materias.visibility = GONE
             recycler_materias.visibility = VISIBLE
         }
+    }
+
+
+    private fun showMessage(message:String){
+        Toast.makeText(this, message,Toast.LENGTH_SHORT).show()
     }
 
     private fun setRecyclerView(materias:List<MateriaResponse>){
