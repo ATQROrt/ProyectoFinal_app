@@ -6,29 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.adrianiglesia.atqr.R
-import com.adrianiglesia.atqr.model.Asistencia
+import com.adrianiglesia.atqr.model.Assistance
 import kotlinx.android.synthetic.main.template_asistecia.view.*
 
 
-class AsistenciaAdapter(private val asistencias:List<Asistencia>): RecyclerView.Adapter<AsistenciaAdapter.ViewHolder>() {
+class AsistenciaAdapter(private val assistances:List<Assistance>): RecyclerView.Adapter<AsistenciaAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.template_asistecia,parent,false)
         return ViewHolder(v)    }
 
     override fun getItemCount(): Int {
-       return asistencias.size
+       return assistances.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItems(asistencias[position])
+        holder.bindItems(assistances[position])
     }
 
 
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
         @SuppressLint("DefaultLocale", "SetTextI18n")
-        fun bindItems(asistencia: Asistencia) {
-            itemView.tv_asistencia_date.text = asistencia.fecha.toString()
-            itemView.tv_asistencia_status.text = asistencia.status
+        fun bindItems(assistance: Assistance) {
+            itemView.tv_asistencia_date.text = assistance.fecha.toString()
+            itemView.tv_asistencia_status.text = assistance.status
         }
     }
 }

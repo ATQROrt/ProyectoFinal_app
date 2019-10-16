@@ -2,6 +2,7 @@ package com.adrianiglesia.atqr.services
 
 
 import android.util.Log
+import com.adrianiglesia.atqr.model.Assistance
 import com.adrianiglesia.atqr.model.User
 import com.adrianiglesia.atqr.model.response.LoginBody
 import com.adrianiglesia.atqr.model.response.MateriaResponse
@@ -79,5 +80,24 @@ class MainRepository {
             }
 
         })
+    }
+
+
+
+    fun getAssistance(successHandler: () -> Unit, failureHandler: (String) -> Unit){
+        val assistance: Call<Assistance> = services.getAssistance()
+        assistance.enqueue(object : Callback<Assistance>{
+            override fun onFailure(call: Call<Assistance>, t: Throwable) {
+                failureHandler(t.message.toString())
+            }
+
+            override fun onResponse(call: Call<Assistance>, response: Response<Assistance>) {
+                if(response.isSuccessful && response.body() != null){
+                    successHandler()
+                }
+            }
+
+        })
+
     }
 }

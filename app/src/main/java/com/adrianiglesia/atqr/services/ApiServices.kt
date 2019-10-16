@@ -1,5 +1,6 @@
 package com.adrianiglesia.atqr.services
 
+import com.adrianiglesia.atqr.model.Assistance
 import com.adrianiglesia.atqr.model.User
 import com.adrianiglesia.atqr.model.response.LoginBody
 import com.adrianiglesia.atqr.model.response.MateriaResponse
@@ -20,4 +21,8 @@ interface ApiServices {
 
     @POST("course/assistance")
     fun sendQr(@Body body: QrBody): Call<ResponseBody>
+
+
+    @POST("assistance")
+    fun  getAssistance(): Call<Assistance>
 }
