@@ -73,7 +73,6 @@ class MainRepository {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if(response.isSuccessful && response.body() != null){
                     successHandler("PRESENTE")
-                    Log.d("RESPONSE_BODY", response.message())
                 }
 
 
@@ -83,17 +82,16 @@ class MainRepository {
     }
 
 
-
-    fun getAssistance(successHandler: () -> Unit, failureHandler: (String) -> Unit){
-        val assistance: Call<Assistance> = services.getAssistance()
-        assistance.enqueue(object : Callback<Assistance>{
-            override fun onFailure(call: Call<Assistance>, t: Throwable) {
+    fun getAssistance(body:QrBody,successHandler: (List<Assistance>) -> Unit, failureHandler: (String) -> Unit){
+        val assistance: Call<List<Assistance>> = services.getAssistance(body)
+        assistance.enqueue(object : Callback<List<Assistance>>{
+            override fun onFailure(call: Call<List<Assistance>>, t: Throwable) {
                 failureHandler(t.message.toString())
             }
-
-            override fun onResponse(call: Call<Assistance>, response: Response<Assistance>) {
+            override fun onResponse(call: Call<List<Assistance>>, response: Response<List<Assistance>>) {
                 if(response.isSuccessful && response.body() != null){
-                    successHandler()
+                    Log.d("RESPONSE", response.body().toString())
+                    successHandler(response.body()!!)
                 }
             }
 

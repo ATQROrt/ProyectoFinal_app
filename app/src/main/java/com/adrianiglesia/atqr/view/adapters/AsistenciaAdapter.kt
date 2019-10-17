@@ -27,8 +27,8 @@ class AsistenciaAdapter(private val assistances:List<Assistance>): RecyclerView.
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
         @SuppressLint("DefaultLocale", "SetTextI18n")
         fun bindItems(assistance: Assistance) {
-            itemView.tv_asistencia_date.text = assistance.fecha.toString()
-            itemView.tv_asistencia_status.text = assistance.status
+            itemView.tv_asistencia_date.text = assistance.date.toString()
+            itemView.tv_asistencia_status.text = assistance.status.toString()
         }
     }
 }

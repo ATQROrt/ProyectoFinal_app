@@ -23,6 +23,6 @@ interface ApiServices {
     fun sendQr(@Body body: QrBody): Call<ResponseBody>
 
 
-    @POST("assistance")
-    fun  getAssistance(): Call<Assistance>
+    @POST("course/history")
+    fun  getAssistance(@Body body:QrBody): Call<List<Assistance>>
 }

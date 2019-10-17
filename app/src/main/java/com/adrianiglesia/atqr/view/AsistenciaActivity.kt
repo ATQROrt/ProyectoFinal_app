@@ -1,34 +1,43 @@
 package com.adrianiglesia.atqr.view
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import com.adrianiglesia.atqr.R
 import com.adrianiglesia.atqr.R.drawable.ic_arrow_back
 import com.adrianiglesia.atqr.model.Assistance
+import com.adrianiglesia.atqr.model.response.QrBody
 import com.adrianiglesia.atqr.view.adapters.AsistenciaAdapter
+import com.adrianiglesia.atqr.viewmodel.AsistenciaViewModel
 import kotlinx.android.synthetic.main.activity_asistencia.*
 
 class AsistenciaActivity : AppCompatActivity() {
+
+    private lateinit var materiasViewModel: AsistenciaViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_asistencia)
         setToolbar()
 
-        var asist1:Assistance = Assistance("02/09","PRESENTE")
-        var asist2:Assistance = Assistance("09/09","PRESENTE")
-        var asist3:Assistance = Assistance("16/09","AUSENTE")
-        var asist4:Assistance = Assistance("23/09","PRESENTE")
-        var asist5:Assistance = Assistance("30/09","AUSENTE")
-        var asist6:Assistance = Assistance("6/10","PUTITO")
+        val studentId = intent.getLongExtra("STUDENT_ID", 0)
+        val courseId = intent.getLongExtra("COURSE_ID", 0)
 
-        var asistnecias = listOf(asist1,asist2,asist3,asist4,asist5,asist6)
+        materiasViewModel = ViewModelProviders.of(this).get(AsistenciaViewModel::class.java)
 
+        val body = QrBody(studentId,courseId)
+        materiasViewModel.getMyAsistance(body).observe(this, Observer<List<Assistance>> {
+            setRecyclerView(it!!)
+        })
 
-        setRecyclerView(asistnecias)
+        materiasViewModel.showMessage().observe(this, Observer<String>{
+            showMessage(it!!)
+        })
 
     }
 
@@ -46,9 +55,14 @@ class AsistenciaActivity : AppCompatActivity() {
             reycler_asistencias.hasFixedSize()
             reycler_asistencias.adapter = AsistenciaAdapter(assistances)
         }else{
-            Toast.makeText(this,"No Hay assistances para esta materia, te quedaste re libre capo",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"No Hay asistencias para esta materia",Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+
+    private fun showMessage(message:String){
+       Snackbar.make(asistencias_layout, message, Snackbar.LENGTH_SHORT).show()
     }
 
 }

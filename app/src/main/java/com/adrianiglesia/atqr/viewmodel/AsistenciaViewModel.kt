@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.adrianiglesia.atqr.model.Assistance
+import com.adrianiglesia.atqr.model.response.QrBody
 import com.adrianiglesia.atqr.services.MainRepository
 
 class AsistenciaViewModel:ViewModel() {
@@ -14,28 +15,30 @@ class AsistenciaViewModel:ViewModel() {
     private var message:MutableLiveData<String> = MutableLiveData()
     var isLoading:MutableLiveData<Boolean> = MutableLiveData()
 
+    fun getMyAsistance(body: QrBody):LiveData<List<Assistance>>{
 
-
-
-
-
-    fun getMyAsistance():LiveData<List<Assistance>>{
-
-        //revisar que recibe por parametros
-        loadAssistance()
+        loadAssistance(body)
         return assistance
     }
 
+    private fun loadAssistance(body: QrBody){
 
+        repository.getAssistance(body,{
 
-    fun loadAssistance(){
+            isLoading.value = true
+            assistance.value = it
 
-        repository.getAssistance({
-            //seteo valor de assiatnce y otros
         },{
-            //muestro mensaje de error y otros
+
+            isLoading.value = false
+            message.value = it
+
         })
 
+    }
+
+    fun showMessage():LiveData<String>{
+        return message
     }
 
 
