@@ -16,10 +16,9 @@ class LoginViewModel : ViewModel() {
 
 
     fun login(document: Long, pass: String){
-        if(validate(document,pass)) {
-            callLogin(document, pass)
-        } else {
-            message.value = "Verifique los campos ingresados"
+        when {
+            validate(document,pass) -> callLogin(document, pass)
+            else -> message.value = "Verifique los campos ingresados"
         }
     }
 

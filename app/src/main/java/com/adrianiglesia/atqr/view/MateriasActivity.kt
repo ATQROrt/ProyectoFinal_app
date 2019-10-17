@@ -32,11 +32,10 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_materias)
 
-        materiasViewModel = ViewModelProviders.of(this).get(MateriasViewModel::class.java)
-
-        user = intent.getParcelableExtra<User>("USER")
+        user = intent.getParcelableExtra("USER")
         tv_welcome_user.text = "Bienvenido ${user.firstName}"
-        Log.d("ID_USER", user.id.toString())
+
+        materiasViewModel = ViewModelProviders.of(this).get(MateriasViewModel::class.java)
 
 
         materiasViewModel.getAssignatures(user).observe(this, Observer<List<MateriaResponse>>{
@@ -76,8 +75,6 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
                 val courseId:Long = result.contents.toLong()
                 val qrBody = QrBody(user.id.toLong(), courseId)
                 materiasViewModel.sendQr(qrBody)
-
-                //Toast.makeText(this,result.contents.toString(),Toast.LENGTH_SHORT).show()
             }
         }else{
             super.onActivityResult(requestCode,resultCode,data)
@@ -107,6 +104,8 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
 
     override fun onItemClicked(materia: Materia) {
         val intent = Intent(this, AsistenciaActivity::class.java)
+        intent.putExtra("STUDENT_ID", user.id)
+        intent.putExtra("COURSE_ID", materia.code)
         startActivity(intent)
     }
 }
