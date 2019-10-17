@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -20,6 +21,7 @@ import com.adrianiglesia.atqr.model.response.QrBody
 import com.adrianiglesia.atqr.view.adapters.MateriasAdapter
 import com.adrianiglesia.atqr.viewmodel.MateriasViewModel
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.android.synthetic.main.activity_asistencia.*
 import kotlinx.android.synthetic.main.activity_materias.*
 
 class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListener {
@@ -31,6 +33,7 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_materias)
+        setToolbar()
 
         materiasViewModel = ViewModelProviders.of(this).get(MateriasViewModel::class.java)
 
@@ -103,6 +106,13 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
         recycler_materias.layoutManager = LinearLayoutManager(this)
         recycler_materias.hasFixedSize()
         recycler_materias.adapter = MateriasAdapter(materias,this)
+    }
+
+    private fun setToolbar(){
+        toolbar_materia.title = "Materias"
+        toolbar_materia.setTitleTextColor(Color.WHITE)
+        toolbar_materia.navigationIcon = resources.getDrawable(R.drawable.ic_arrow_back)
+        toolbar_materia.setNavigationOnClickListener { onBackPressed() }
     }
 
     override fun onItemClicked(materia: Materia) {

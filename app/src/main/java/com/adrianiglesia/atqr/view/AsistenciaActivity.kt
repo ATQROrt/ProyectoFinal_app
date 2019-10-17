@@ -30,13 +30,14 @@ class AsistenciaActivity : AppCompatActivity() {
 
         var asistnecias = listOf(asist1,asist2,asist3,asist4,asist5,asist6)
 
+        setToolbar()
         setRecyclerView(asistnecias)
 
     }
 
 
     private fun setToolbar(){
-        toolbar_asistencias.title = "Materia"
+        toolbar_asistencias.title = "Asistencia"
         toolbar_asistencias.setTitleTextColor(Color.WHITE)
         toolbar_asistencias.navigationIcon = resources.getDrawable(ic_arrow_back)
         toolbar_asistencias.setNavigationOnClickListener { onBackPressed() }

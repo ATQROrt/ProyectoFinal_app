@@ -9,10 +9,12 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiServices {
 
-    @POST("student/login")
+    @POST("student/login/")
     fun userLogin(@Body body: LoginBody): Call<User>
 
     @POST("course/student")
