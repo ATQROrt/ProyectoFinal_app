@@ -2,7 +2,7 @@ package com.adrianiglesia.atqr.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Materia(
+data class Asignature(
         @SerializedName("name")
         val name:String,
         @SerializedName("code")

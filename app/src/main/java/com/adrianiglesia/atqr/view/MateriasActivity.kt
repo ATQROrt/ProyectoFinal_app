@@ -11,11 +11,12 @@ import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
-import com.adrianiglesia.atqr.model.Materia
+import com.adrianiglesia.atqr.model.Asignature
 
 import com.adrianiglesia.atqr.R
 import com.adrianiglesia.atqr.model.User
-import com.adrianiglesia.atqr.model.response.MateriaResponse
+import com.adrianiglesia.atqr.model.Course
+import com.adrianiglesia.atqr.model.response.CourseResponse
 import com.adrianiglesia.atqr.model.response.QrBody
 import com.adrianiglesia.atqr.view.adapters.MateriasAdapter
 import com.adrianiglesia.atqr.viewmodel.MateriasViewModel
@@ -38,7 +39,7 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
         materiasViewModel = ViewModelProviders.of(this).get(MateriasViewModel::class.java)
 
 
-        materiasViewModel.getAssignatures(user).observe(this, Observer<List<MateriaResponse>>{
+        materiasViewModel.getAssignatures(user).observe(this, Observer<List<CourseResponse>>{
             setRecyclerView(it!!)
         })
 
@@ -96,16 +97,16 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
         Toast.makeText(this, message,Toast.LENGTH_SHORT).show()
     }
 
-    private fun setRecyclerView(materias:List<MateriaResponse>){
+    private fun setRecyclerView(materias:List<CourseResponse>){
         recycler_materias.layoutManager = LinearLayoutManager(this)
         recycler_materias.hasFixedSize()
         recycler_materias.adapter = MateriasAdapter(materias,this)
     }
 
-    override fun onItemClicked(materia: Materia) {
+    override fun onItemClicked(course: Course) {
         val intent = Intent(this, AsistenciaActivity::class.java)
         intent.putExtra("STUDENT_ID", user.id)
-        intent.putExtra("COURSE_ID", materia.code)
+        intent.putExtra("COURSE_ID", course.id)
         startActivity(intent)
     }
 }

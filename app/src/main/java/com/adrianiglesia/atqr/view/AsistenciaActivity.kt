@@ -43,7 +43,7 @@ class AsistenciaActivity : AppCompatActivity() {
 
 
     private fun setToolbar(){
-        toolbar_asistencias.title = "Materia"
+        toolbar_asistencias.title = "Asignature"
         toolbar_asistencias.setTitleTextColor(Color.WHITE)
         toolbar_asistencias.navigationIcon = resources.getDrawable(ic_arrow_back)
         toolbar_asistencias.setNavigationOnClickListener { onBackPressed() }
