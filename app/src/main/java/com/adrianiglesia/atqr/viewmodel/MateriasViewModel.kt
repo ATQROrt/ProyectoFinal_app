@@ -45,7 +45,7 @@ class MateriasViewModel: ViewModel() {
         })
     }
 
-    fun showMessage():LiveData<String>{
+    fun getMessage():LiveData<String>{
         return message
     }
 

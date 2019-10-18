@@ -1,6 +1,8 @@
 package com.adrianiglesia.atqr.view.adapters
 
 import android.annotation.SuppressLint
+import android.content.res.Resources
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +34,17 @@ class MateriasAdapter(private val materias:List<CourseResponse>, private val ite
         fun bindItems(course: CourseResponse, itemClickListener: OnItemClickListener) {
             itemView.materia_name.text = course.course.asignature.name.toUpperCase()
             itemView.asist_percent.text= "${course.percentage}%"
+            when {
+                course.percentage >= 70 -> itemView.asist_percent.setTextColor(Color.parseColor("#168f06"))
+                course.percentage in 50..69 -> itemView.asist_percent.setTextColor(Color.parseColor("#ff8f05"))
+                else -> itemView.asist_percent.setTextColor(Color.parseColor("#cb0909"))
+            }
 
+            /*when(course.percentage){
+                in 70..100 ->
+                in 50..69 ->
+                in 30..0 ->
+            }*/
             itemView.setOnClickListener { itemClickListener.onItemClicked(course.course) }
         }
     }

@@ -5,9 +5,9 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
 
 import com.adrianiglesia.atqr.R
 import com.adrianiglesia.atqr.viewmodel.LoginViewModel
@@ -32,8 +32,8 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
 
 
-        loginViewModel.message.observe(this, Observer<String>{
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        loginViewModel.getMessage().observe(this, Observer<String>{
+            showMessage(it!!)
         })
 
         loginViewModel.isLoading.observe(this,Observer<Boolean>{
@@ -45,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
                 val intent = Intent(this, MateriasActivity::class.java)
                 intent.putExtra("USER",it)
                 startActivity(intent)
+                finish()
             }
         })
 
@@ -70,6 +71,9 @@ class LoginActivity : AppCompatActivity() {
             loading_login.visibility = GONE
             bt_login.visibility = VISIBLE
         }
+    }
+    private fun showMessage(message:String){
+        Snackbar.make(login_layout, message, Snackbar.LENGTH_SHORT).show()
     }
 
 }
