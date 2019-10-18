@@ -5,7 +5,8 @@ import android.util.Log
 import com.adrianiglesia.atqr.model.Assistance
 import com.adrianiglesia.atqr.model.User
 import com.adrianiglesia.atqr.model.response.LoginBody
-import com.adrianiglesia.atqr.model.response.MateriaResponse
+import com.adrianiglesia.atqr.model.Course
+import com.adrianiglesia.atqr.model.response.CourseResponse
 import com.adrianiglesia.atqr.model.response.QrBody
 import okhttp3.ResponseBody
 
@@ -44,14 +45,14 @@ class MainRepository {
 
     }
 
-    fun userAssignature(user:User,successHandler: (List<MateriaResponse>)->Unit, failureHandler: (String)-> Unit){
-        val assignatures:Call<List<MateriaResponse>> = services.userAssignatures(user)
-        assignatures.enqueue(object : Callback<List<MateriaResponse>>{
-            override fun onFailure(call: Call<List<MateriaResponse>>, t: Throwable) {
+    fun userAssignature(user:User, successHandler: (List<CourseResponse>)->Unit, failureHandler: (String)-> Unit){
+        val assignatures:Call<List<CourseResponse>> = services.userAssignatures(user)
+        assignatures.enqueue(object : Callback<List<CourseResponse>>{
+            override fun onFailure(call: Call<List<CourseResponse>>, t: Throwable) {
                 failureHandler(t.message.toString())
             }
 
-            override fun onResponse(call: Call<List<MateriaResponse>>, response: Response<List<MateriaResponse>>) {
+            override fun onResponse(call: Call<List<CourseResponse>>, response: Response<List<CourseResponse>>) {
                 if (response.isSuccessful && response.body() != null) {
                     val assignatureResponse = response.body()!!
                     successHandler(assignatureResponse)
