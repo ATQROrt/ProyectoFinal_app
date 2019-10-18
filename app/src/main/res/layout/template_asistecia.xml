@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/template_layout"
         android:layout_width="0dp"
         android:layout_height="42dp"
         android:background="#f4f4f4"
@@ -73,4 +74,11 @@
             android:textColor="#000000"
             android:textSize="18sp" />
     </RelativeLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@+id/template_layout"/>
 </android.support.constraint.ConstraintLayout>
