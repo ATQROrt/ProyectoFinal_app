@@ -30,7 +30,7 @@ class AsistenciaActivity : AppCompatActivity() {
 
         materiasViewModel = ViewModelProviders.of(this).get(AsistenciaViewModel::class.java)
 
-        val body = QrBody(studentId,courseId)
+        val body = QrBody(5,2)
         materiasViewModel.getMyAsistance(body).observe(this, Observer<List<Assistance>> {
             setRecyclerView(it!!)
         })
