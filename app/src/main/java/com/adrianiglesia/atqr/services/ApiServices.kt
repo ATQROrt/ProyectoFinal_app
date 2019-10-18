@@ -3,7 +3,8 @@ package com.adrianiglesia.atqr.services
 import com.adrianiglesia.atqr.model.Assistance
 import com.adrianiglesia.atqr.model.User
 import com.adrianiglesia.atqr.model.response.LoginBody
-import com.adrianiglesia.atqr.model.response.MateriaResponse
+import com.adrianiglesia.atqr.model.Course
+import com.adrianiglesia.atqr.model.response.CourseResponse
 import com.adrianiglesia.atqr.model.response.QrBody
 import okhttp3.ResponseBody
 
@@ -17,7 +18,7 @@ interface ApiServices {
     fun userLogin(@Body body: LoginBody): Call<User>
 
     @POST("course/student")
-    fun userAssignatures(@Body body: User): Call<List<MateriaResponse>>
+    fun userAssignatures(@Body body: User): Call<List<CourseResponse>>
 
     @POST("course/assistance")
     fun sendQr(@Body body: QrBody): Call<ResponseBody>
