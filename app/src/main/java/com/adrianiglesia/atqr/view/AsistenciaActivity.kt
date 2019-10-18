@@ -7,14 +7,17 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import android.widget.Toast
 import com.adrianiglesia.atqr.R
 import com.adrianiglesia.atqr.R.drawable.ic_arrow_back
 import com.adrianiglesia.atqr.model.Assistance
+import com.adrianiglesia.atqr.model.Course
 import com.adrianiglesia.atqr.model.response.QrBody
 import com.adrianiglesia.atqr.view.adapters.AsistenciaAdapter
 import com.adrianiglesia.atqr.viewmodel.AsistenciaViewModel
 import kotlinx.android.synthetic.main.activity_asistencia.*
+import kotlinx.android.synthetic.main.activity_materias.*
 
 class AsistenciaActivity : AppCompatActivity() {
 
@@ -26,24 +29,29 @@ class AsistenciaActivity : AppCompatActivity() {
         setToolbar()
 
         val studentId = intent.getLongExtra("STUDENT_ID", 0)
-        val courseId = intent.getLongExtra("COURSE_ID", 0)
+        val course = intent.getParcelableExtra<Course>("COURSE_ID")
+
+        tv_materia_name.text = course.asignature.name
 
         materiasViewModel = ViewModelProviders.of(this).get(AsistenciaViewModel::class.java)
 
-        val body = QrBody(studentId,courseId)
+        val body = QrBody(studentId,course.id.toLong())
         materiasViewModel.getMyAsistance(body).observe(this, Observer<List<Assistance>> {
             setRecyclerView(it!!)
         })
 
-        materiasViewModel.showMessage().observe(this, Observer<String>{
+        materiasViewModel.getMessage().observe(this, Observer<String>{
             showMessage(it!!)
+        })
+
+        materiasViewModel.isLoading.observe(this, Observer<Boolean>{
+            setVisiblities(it!!)
         })
 
     }
 
-
     private fun setToolbar(){
-        toolbar_asistencias.title = "Asignature"
+        toolbar_asistencias.title = "Asistencias"
         toolbar_asistencias.setTitleTextColor(Color.WHITE)
         toolbar_asistencias.navigationIcon = resources.getDrawable(ic_arrow_back)
         toolbar_asistencias.setNavigationOnClickListener { onBackPressed() }
@@ -55,9 +63,20 @@ class AsistenciaActivity : AppCompatActivity() {
             reycler_asistencias.hasFixedSize()
             reycler_asistencias.adapter = AsistenciaAdapter(assistances)
         }else{
-            Toast.makeText(this,"No Hay asistencias para esta materia",Toast.LENGTH_SHORT).show()
+            showMessage("No hay asistencias para esta materia")
         }
 
+    }
+
+
+    private fun setVisiblities(it:Boolean){
+        if(it){
+            loading_assistance.visibility = View.VISIBLE
+            reycler_asistencias.visibility = View.GONE
+        }else{
+            loading_assistance.visibility = View.GONE
+            reycler_asistencias.visibility = View.VISIBLE
+        }
     }
 
 

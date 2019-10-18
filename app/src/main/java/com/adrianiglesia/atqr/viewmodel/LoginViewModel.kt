@@ -1,5 +1,6 @@
 package com.adrianiglesia.atqr.viewmodel
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.adrianiglesia.atqr.model.User
@@ -12,7 +13,7 @@ class LoginViewModel : ViewModel() {
 
     var isLoading:MutableLiveData<Boolean> = MutableLiveData()
     var userMutableLiveData:MutableLiveData<User> = MutableLiveData()
-    var message:MutableLiveData<String> = MutableLiveData()
+    private var message:MutableLiveData<String> = MutableLiveData()
 
 
     fun login(document: Long, pass: String){
@@ -27,13 +28,11 @@ class LoginViewModel : ViewModel() {
         isLoading.value = true
 
         repository.userLogin(document, pass, {
-            message.value = "Exito!"
             userMutableLiveData.value = it
             isLoading.value = false
 
 
         }, {
-
             message.value = it
             isLoading.value = false
 
@@ -43,7 +42,7 @@ class LoginViewModel : ViewModel() {
     private fun validate(doc:Long, pass:String):Boolean{
         var valid = true
 
-        if (doc == null || doc.toString().length < 8 ) {
+        if (doc.toString().length < 8) {
             valid = false
         }
 
@@ -52,6 +51,10 @@ class LoginViewModel : ViewModel() {
         }
 
         return valid
+    }
+
+    fun getMessage(): LiveData<String> {
+        return message
     }
 
 }

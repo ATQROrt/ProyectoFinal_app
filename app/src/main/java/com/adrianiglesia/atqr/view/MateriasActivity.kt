@@ -4,14 +4,15 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
-import com.adrianiglesia.atqr.model.Asignature
+
 
 import com.adrianiglesia.atqr.R
 import com.adrianiglesia.atqr.model.User
@@ -32,6 +33,7 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_materias)
+        setToolbar()
 
         user = intent.getParcelableExtra("USER")
         tv_welcome_user.text = "Bienvenido ${user.firstName}"
@@ -47,7 +49,7 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
             setVisiblities(it!!)
         })
 
-        materiasViewModel.showMessage().observe(this, Observer<String>{
+        materiasViewModel.getMessage().observe(this, Observer<String>{
             if(it != null) showMessage(it)
         })
 
@@ -71,7 +73,7 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if(result != null){
             if(result.contents == null){
-                Toast.makeText(this,"Cancelaste el scanneo",Toast.LENGTH_SHORT).show()
+                showMessage("Cancelaste el scanneo")
             }else{
                 val courseId:Long = result.contents.toLong()
                 val qrBody = QrBody(user.id.toLong(), courseId)
@@ -94,7 +96,7 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
 
 
     private fun showMessage(message:String){
-        Toast.makeText(this, message,Toast.LENGTH_SHORT).show()
+        Snackbar.make(materias_layout, message, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun setRecyclerView(materias:List<CourseResponse>){
@@ -103,10 +105,17 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
         recycler_materias.adapter = MateriasAdapter(materias,this)
     }
 
+    private fun setToolbar(){
+        toolbar_materia.title = "Materias"
+        toolbar_materia.setTitleTextColor(Color.WHITE)
+        toolbar_materia.navigationIcon = resources.getDrawable(R.drawable.ic_arrow_back)
+        toolbar_materia.setNavigationOnClickListener { onBackPressed() }
+    }
+
     override fun onItemClicked(course: Course) {
         val intent = Intent(this, AsistenciaActivity::class.java)
-        intent.putExtra("STUDENT_ID", user.id)
-        intent.putExtra("COURSE_ID", course.id)
+        intent.putExtra("STUDENT_ID", user.id.toLong())
+        intent.putExtra("COURSE_ID", course)
         startActivity(intent)
     }
 }

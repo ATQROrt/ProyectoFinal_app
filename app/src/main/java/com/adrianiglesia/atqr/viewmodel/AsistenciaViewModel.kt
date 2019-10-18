@@ -22,10 +22,10 @@ class AsistenciaViewModel:ViewModel() {
     }
 
     private fun loadAssistance(body: QrBody){
-
+        isLoading.value = true
         repository.getAssistance(body,{
 
-            isLoading.value = true
+            isLoading.value = false
             assistance.value = it
 
         },{
@@ -37,7 +37,7 @@ class AsistenciaViewModel:ViewModel() {
 
     }
 
-    fun showMessage():LiveData<String>{
+    fun getMessage():LiveData<String>{
         return message
     }
 
