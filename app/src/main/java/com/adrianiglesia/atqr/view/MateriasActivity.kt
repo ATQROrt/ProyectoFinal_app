@@ -106,7 +106,7 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
     override fun onItemClicked(course: Course) {
         val intent = Intent(this, AsistenciaActivity::class.java)
         intent.putExtra("STUDENT_ID", user.id)
-        intent.putExtra("COURSE_ID", course.id)
+        intent.putExtra("COURSE_ID", course)
         startActivity(intent)
     }
 }

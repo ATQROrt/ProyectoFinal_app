@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.adrianiglesia.atqr.R
 import com.adrianiglesia.atqr.R.drawable.ic_arrow_back
 import com.adrianiglesia.atqr.model.Assistance
+import com.adrianiglesia.atqr.model.Course
 import com.adrianiglesia.atqr.model.response.QrBody
 import com.adrianiglesia.atqr.view.adapters.AsistenciaAdapter
 import com.adrianiglesia.atqr.viewmodel.AsistenciaViewModel
@@ -26,11 +27,11 @@ class AsistenciaActivity : AppCompatActivity() {
         setToolbar()
 
         val studentId = intent.getLongExtra("STUDENT_ID", 0)
-        val courseId = intent.getLongExtra("COURSE_ID", 0)
+        val course = intent.getParcelableExtra<Course>("COURSE_ID")
 
         materiasViewModel = ViewModelProviders.of(this).get(AsistenciaViewModel::class.java)
 
-        val body = QrBody(5,2)
+        val body = QrBody(studentId,course.id.toLong())
         materiasViewModel.getMyAsistance(body).observe(this, Observer<List<Assistance>> {
             setRecyclerView(it!!)
         })
