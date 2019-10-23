@@ -75,7 +75,8 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
             if(result.contents == null){
                 showMessage("Cancelaste el scanneo")
             }else{
-                val courseId:Long = result.contents.toLong()
+                val split = result.contents.split("-")
+                val courseId:Long = split[0].toLong()
                 val qrBody = QrBody(user.id.toLong(), courseId)
                 materiasViewModel.sendQr(qrBody)
             }
