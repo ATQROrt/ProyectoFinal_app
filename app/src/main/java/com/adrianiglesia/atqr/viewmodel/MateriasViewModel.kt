@@ -21,6 +21,7 @@ class MateriasViewModel: ViewModel() {
     fun getAssignatures(user: User):LiveData<List<CourseResponse>>{
 
         loadAssginatures(user)
+
         return assignatures
     }
 
