@@ -18,6 +18,12 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 
 class LoginActivity : AppCompatActivity() {
+    companion object{
+
+        const val LOGOUT:Int = 9
+        const val FINISH:Int = 0
+        const val LOGIN:Int = 1
+    }
 
     private var document: Long? = null
     private var pass: String = ""
@@ -44,8 +50,7 @@ class LoginActivity : AppCompatActivity() {
             if(it != null){
                 val intent = Intent(this, MateriasActivity::class.java)
                 intent.putExtra("USER",it)
-                startActivity(intent)
-                finish()
+                startActivityForResult(intent, LOGIN)
             }
         })
 
@@ -74,6 +79,19 @@ class LoginActivity : AppCompatActivity() {
     }
     private fun showMessage(message:String){
         Snackbar.make(login_layout, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        when (resultCode){
+            FINISH -> finish()
+            LOGOUT -> resetFields()
+        }
+    }
+
+    private fun resetFields() {
+        edt_user.text.clear()
+        edt_pass.text.clear()
     }
 
 }
