@@ -8,8 +8,12 @@ import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 
@@ -25,6 +29,12 @@ import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.activity_materias.*
 
 class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListener {
+
+    companion object{
+
+        const val LOGOUT:Int = 9
+        const val FINISH:Int = 0
+    }
 
     private lateinit var materiasViewModel: MateriasViewModel
     private lateinit var user:User
@@ -60,6 +70,7 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
 
     }
 
+
     private fun startScanQr() {
         val scanner = IntentIntegrator(this)
         scanner.setOrientationLocked(true)
@@ -75,10 +86,14 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
             if(result.contents == null){
                 showMessage("Cancelaste el scanneo")
             }else{
-                val split = result.contents.split("-")
-                val courseId:Long = split[0].toLong()
-                val qrBody = QrBody(user.id.toLong(), courseId)
-                materiasViewModel.sendQr(qrBody)
+                if(result.contents.contains("-")){
+                    val split = result.contents.split("-")
+                    val courseId:Long = split[0].toLong()
+                    val qrBody = QrBody(user.id.toLong(), courseId)
+                    materiasViewModel.sendQr(qrBody)
+                }else{
+                    showMessage("Datos incorrectos")
+                }
             }
         }else{
             super.onActivityResult(requestCode,resultCode,data)
@@ -109,14 +124,42 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
     private fun setToolbar(){
         toolbar_materia.title = "Materias"
         toolbar_materia.setTitleTextColor(Color.WHITE)
-        toolbar_materia.navigationIcon = resources.getDrawable(R.drawable.ic_arrow_back)
-        toolbar_materia.setNavigationOnClickListener { onBackPressed() }
+        toolbar_materia.inflateMenu(R.menu.logout)
+        toolbar_materia.setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener {
+            return@OnMenuItemClickListener when (it.itemId){
+                R.id.menu_logout -> {
+                    showFinishDialog("Desea cerrar su sesion?","ATENCION", "Cerrar sesion", LOGOUT)
+                    true
+                }
+
+                else -> false
+            }
+        })
     }
+
 
     override fun onItemClicked(course: Course) {
         val intent = Intent(this, AsistenciaActivity::class.java)
         intent.putExtra("STUDENT_ID", user.id.toLong())
         intent.putExtra("COURSE_ID", course)
         startActivity(intent)
+    }
+
+
+    override fun onBackPressed() {
+        showFinishDialog("Estas saliendo de ATQR!","Salir", "Salir", FINISH)
+    }
+
+    private fun showFinishDialog(message:String, title:String, possitiveBt:String, result:Int) {
+        AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(possitiveBt) { dialog, which ->
+                    setResult(result)
+                    finish()
+                }
+                .setNegativeButton("Cancelar"){dialog,which ->
+                    dialog.dismiss()
+                }.show()
     }
 }

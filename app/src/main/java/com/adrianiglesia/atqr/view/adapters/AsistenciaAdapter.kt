@@ -30,7 +30,12 @@ class AsistenciaAdapter(private val assistances:List<Assistance>): RecyclerView.
             val date = java.text.SimpleDateFormat("dd-MM-yyyy").format(assistance.date)
 
             itemView.tv_asistencia_date.text = date
-            itemView.tv_asistencia_status.text = assistance.status.toString()
+            if(assistance.status.equals("PRESENT")){
+                itemView.tv_asistencia_status.text = "PRESENTE"
+            }else{
+                itemView.tv_asistencia_status.text = "AUSENTE"
+            }
+
         }
     }
 }
