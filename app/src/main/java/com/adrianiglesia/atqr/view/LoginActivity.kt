@@ -64,16 +64,15 @@ class LoginActivity : AppCompatActivity() {
             document =  edt_user.text.toString().toLong()
             pass = edt_pass.text.toString()
             if (document != null || pass != "") {
+                if(checkBox.isChecked){
+                    SaveSharedPreference.setLoggedIn(this,true, edt_user.text.toString())
+                }else{
+                    SaveSharedPreference.setLoggedIn(this,false, "")
+                }
                 loginViewModel.login(document!!, pass)
             }
         }
 
-
-        checkBox.setOnClickListener {
-            if(checkBox.isChecked){
-                SaveSharedPreference.setLoggedIn(this,true, edt_user.text.toString())
-            }
-        }
     }
 
     private fun setVisiblities(it:Boolean){
@@ -110,6 +109,7 @@ class LoginActivity : AppCompatActivity() {
     private fun checkLogin(){
         if(SaveSharedPreference.getLoggedStatus(this)){
             edt_user.setText(SaveSharedPreference.getUserDni(this))
+            checkBox.isChecked = true
         }
     }
 }
