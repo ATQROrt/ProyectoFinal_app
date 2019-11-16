@@ -25,7 +25,7 @@
     <LinearLayout
         android:id="@+id/login_layout"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
@@ -38,7 +38,8 @@
         app:layout_constraintHorizontal_bias="0.34"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.166">
+        app:layout_constraintVertical_bias="0.166"
+        tools:ignore="DuplicateIds">
 
 
         <EditText
@@ -51,7 +52,7 @@
             android:ems="10"
             android:hint="@string/usuario"
             android:inputType="number"
-            android:text="44776897"
+            android:text=""
             android:theme="@style/AppTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.043"
@@ -68,12 +69,20 @@
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:text="contrasena"
+            android:text=""
             android:theme="@style/AppTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edt_user" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            android:text="Mantener DNI"/>
 
         <Button
             android:id="@+id/bt_login"
@@ -86,7 +95,6 @@
             android:background="@color/colorAccent"
             android:text="@string/login"
             android:textColor="#ffffff"
-            android:visibility="visible"
             android:layout_gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
