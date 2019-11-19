@@ -1,7 +1,6 @@
 package com.adrianiglesia.atqr.view.adapters
 
 import android.annotation.SuppressLint
-import android.content.res.Resources
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

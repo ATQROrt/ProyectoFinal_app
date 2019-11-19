@@ -12,8 +12,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 
@@ -154,11 +152,11 @@ class MateriasActivity : AppCompatActivity(), MateriasAdapter.OnItemClickListene
         AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton(possitiveBt) { dialog, which ->
+                .setPositiveButton(possitiveBt) { _, _ ->
                     setResult(result)
                     finish()
                 }
-                .setNegativeButton("Cancelar"){dialog,which ->
+                .setNegativeButton("Cancelar"){ dialog, _ ->
                     dialog.dismiss()
                 }.show()
     }

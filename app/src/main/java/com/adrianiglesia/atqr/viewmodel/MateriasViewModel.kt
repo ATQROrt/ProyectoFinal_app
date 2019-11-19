@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.adrianiglesia.atqr.model.User
-import com.adrianiglesia.atqr.model.Course
 import com.adrianiglesia.atqr.model.response.CourseResponse
 import com.adrianiglesia.atqr.model.response.QrBody
 import com.adrianiglesia.atqr.services.MainRepository
@@ -16,12 +15,13 @@ class MateriasViewModel: ViewModel() {
     private var assignatures:MutableLiveData<List<CourseResponse>> = MutableLiveData()
     var isLoading:MutableLiveData<Boolean> = MutableLiveData()
     private var message:MutableLiveData<String> = MutableLiveData()
+    private lateinit var user:User
 
 
     fun getAssignatures(user: User):LiveData<List<CourseResponse>>{
 
+        this.user = user
         loadAssginatures(user)
-
         return assignatures
     }
 
@@ -41,6 +41,7 @@ class MateriasViewModel: ViewModel() {
     fun sendQr(qrBody:QrBody){
         repository.sendQr(qrBody,{
             message.value = it
+            loadAssginatures(user)
         },{
             message.value  = it
         })
