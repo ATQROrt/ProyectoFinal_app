@@ -5,7 +5,7 @@ import java.util.*
 
 class Assistance(
         @SerializedName("date")
-        val date:Long,
+        val date:Date,
         @SerializedName("assistanceStatus")
         val status:AssistanceStatus,
         @SerializedName("cancelled")

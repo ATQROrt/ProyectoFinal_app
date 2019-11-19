@@ -8,16 +8,17 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.Toast
 import com.adrianiglesia.atqr.R
 import com.adrianiglesia.atqr.R.drawable.ic_arrow_back
 import com.adrianiglesia.atqr.model.Assistance
 import com.adrianiglesia.atqr.model.Course
 import com.adrianiglesia.atqr.model.response.QrBody
+import com.adrianiglesia.atqr.utils.PieChartCalculator
 import com.adrianiglesia.atqr.view.adapters.AsistenciaAdapter
 import com.adrianiglesia.atqr.viewmodel.AsistenciaViewModel
 import kotlinx.android.synthetic.main.activity_asistencia.*
-import kotlinx.android.synthetic.main.activity_materias.*
+import lecho.lib.hellocharts.model.PieChartData
+import lecho.lib.hellocharts.model.SliceValue
 
 class AsistenciaActivity : AppCompatActivity() {
 
@@ -38,6 +39,8 @@ class AsistenciaActivity : AppCompatActivity() {
         val body = QrBody(studentId,course.id.toLong())
         materiasViewModel.getMyAsistance(body).observe(this, Observer<List<Assistance>> {
             setRecyclerView(it!!)
+            setPieChart(it)
+
         })
 
         materiasViewModel.getMessage().observe(this, Observer<String>{
@@ -48,13 +51,16 @@ class AsistenciaActivity : AppCompatActivity() {
             setVisiblities(it!!)
         })
 
+
     }
 
     private fun setToolbar(){
         toolbar_asistencias.title = "Asistencias"
         toolbar_asistencias.setTitleTextColor(Color.WHITE)
+        @Suppress("DEPRECATION")
         toolbar_asistencias.navigationIcon = resources.getDrawable(ic_arrow_back)
         toolbar_asistencias.setNavigationOnClickListener { onBackPressed() }
+
     }
 
     private fun setRecyclerView(assistances:List<Assistance>){
@@ -65,6 +71,17 @@ class AsistenciaActivity : AppCompatActivity() {
         }else{
             showMessage("No hay asistencias para esta materia")
         }
+    }
+
+    private fun setPieChart(assistances: List<Assistance>){
+        val chartList:List<SliceValue> = PieChartCalculator.getPercentForAssistances(assistances)
+        val pieChart = PieChartData(chartList)
+        pieChart.setHasLabels(true)
+        pieChart.setHasLabelsOnlyForSelected(true)
+        pieChart.setHasCenterCircle(true)
+        pieChart.centerText1 = "Asistencia"
+        pieChart.centerText1FontSize = 16
+        chart.pieChartData = pieChart
 
     }
 

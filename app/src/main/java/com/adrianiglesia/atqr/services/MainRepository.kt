@@ -5,7 +5,6 @@ import android.util.Log
 import com.adrianiglesia.atqr.model.Assistance
 import com.adrianiglesia.atqr.model.User
 import com.adrianiglesia.atqr.model.response.LoginBody
-import com.adrianiglesia.atqr.model.Course
 import com.adrianiglesia.atqr.model.response.CourseResponse
 import com.adrianiglesia.atqr.model.response.QrBody
 import okhttp3.ResponseBody
